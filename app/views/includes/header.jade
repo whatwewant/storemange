@@ -1,0 +1,16 @@
+.container
+  .row
+    .page-header.clearfix
+      h1 #{title}
+      .col-md-4
+        small Eason仓库管理系统
+      .col-md-8
+        .form(method='GET', action="/search")
+          .input-group.col-sm-4.pull-right
+            input.form-control(type="text", name="q")
+            span.input-group-btn
+              button.btn.btn-default(type="submit") 搜索
+          .input-group.col-sm-2.pull-right
+            span.input-group-btn
+              button.btn.btn-default(type="button" data-toggle="modal" data-target="#createModal") 创建
+  //- script(src="/js/admin.js")

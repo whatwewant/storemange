@@ -1,0 +1,65 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      table.table.table-hover.table-bordered.table-responsive
+        thread
+          tr
+            th 名称
+            th 数量
+            th 拥有者
+            th 操作者
+            th 创建时间
+            th 更新时间
+            th 查看
+            th 更新
+            th 删除
+        tbody
+          each item in stores
+            tr.store(class="item-id-#{item._id}")
+              td #{item.name}
+              td #{item.number}
+              td #{item.belongsTo ? item.belongsTo.nickname : '已离开'}
+              td #{item.manipulator ? item.manipulator.nickname : '已离开'}
+              td #{moment(item.createdAt).format('MM/DD/YYYY')}
+              td #{moment(item.updatedAt).format('MM/DD/YYYY')}
+              td: button.btn.btn-default(type="button", data-id="#{item.id}") 查看
+              td: button.btn.btn-default(type="button", data-id="#{item.id}") 更新
+              td: button.btn.btn-danger.del(type="button", data-id="#{item.id}") 删除
+
+    .modal.fade#createModal(role="dialog")
+      .modal-dialog
+          .modal-content
+            form.form-horizontal(method="post")
+              .modal-header
+                h1.modal-title 创建新材料
+              .modal-body
+                .form-group
+                  label.col-sm-2.control-label(for="store[name]") 名&emsp;称
+                  .col-sm-10
+                    input.form-control(name="store[name]", type="text", placeholder="名称")
+                .form-group
+                  label.col-sm-2.control-label(for="store[number]") 数&emsp;量
+                  .col-sm-10
+                    input.form-control(name="store[number]", type="text", placeholder="数量")
+                .form-group
+                  label.col-sm-2.control-label(for="store[belongsTo]") 拥有者
+                  .col-sm-10
+                    select.form-control(name="store[belongsTo]")
+                      each user in users
+                        option(value="#{user._id}") #{user.nickname}
+                .form-group
+                  label.col-sm-2.control-label(for="store[manipulator]") 操作者
+                  .col-sm-10
+                    select.form-control(name="store[manipulator]")
+                      each user in users
+                        option(value="#{user._id}") #{user.nickname}
+                .form-group
+                  label.col-sm-2.control-label(for="store[comment]") 备注
+                  .col-sm-10
+                    textarea.form-control(name="store[comment]", rows="5", placeholder="备注信息")
+              .modal-footer
+                button.btn.btn-default(type="button", data-dismiss="modal") 取消
+                button.btn.btn-primary(type="submit") 创建
+    script(src="/js/admin.js")

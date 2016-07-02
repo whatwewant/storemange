@@ -1,0 +1,41 @@
+{
+  "name": "webappapi",
+  "version": "1.0.0",
+  "description": "web app api server side",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp"
+  },
+  "keywords": [
+    "web",
+    "app",
+    "api",
+    "server"
+  ],
+  "author": "Eason",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "bluebird": "^3.4.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-livereload": "^3.8.1",
+    "gulp-nodemon": "^2.1.0",
+    "jade": "^1.11.0",
+    "should": "^9.0.2"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.2",
+    "connect-mongo": "^1.2.1",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.13.0",
+    "moment": "^2.13.0",
+    "mongoose": "^4.5.2",
+    "morgan": "^1.7.0",
+    "pug": "^2.0.0-beta3",
+    "underscore": "^1.8.3"
+  }
+}
