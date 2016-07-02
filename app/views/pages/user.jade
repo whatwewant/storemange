@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  .container
+  .user
     .row
       table.table.table-hover.table-bordered.table-responsive
         thread
@@ -9,8 +9,10 @@ block content
             th 昵称
             th 用户名
             th 创建时间
+            th 更新时间
             th 查看
             th 更新
+            th 状态
             th 删除
         tbody
           each user in users
@@ -18,9 +20,17 @@ block content
               td #{user.nickname}
               td #{user.username}
               td #{moment(user.createdAt).format('MM/DD/YYYY HH:mm:SS')}
+              td #{moment(user.updatedAt).format('MM/DD/YYYY HH:mm:SS')}
               td: button.btn.btn-default.retrieve(type="button", data-id="#{user.id}") 查看
-              td: button.btn.btn-default.update(type="button", data-id="#{user.id}") 更新
-              td: button.btn.btn-danger.del(type="button", data-id="#{user.id}") 删除
+              if user.status.active
+                td: button.btn.btn-default.update(type="button", data-id="#{user.id}") 更新
+              else
+                td: button.btn.btn-default.update(type="button", data-id="#{user.id}" disabled) 更新
+              td: button.btn.btn-danger.set-status(type="button", data-id="#{user.id}", data-status="#{user.status.active}") #{user.status.active ? '活跃' : '离职'}
+              if user.createdAt >= user.updatedAt
+                td: button.btn.btn-danger.del(type="button", data-id="#{user.id}") 删除
+              else
+                td: button.btn.btn-danger.del(type="button", data-id="#{user.id}" disabled) 删除
 
     .modal.fade#createModal(role="dialog")
       .modal-dialog
@@ -91,6 +101,6 @@ block content
                   input.form-control(name="user[phone]", placeholder="手机号")
           .modal-footer
             button.btn.btn-default(type="button", data-dismiss="modal") 取消
-            button.btn.btn-primary(type="button") 更新
+            button.btn.btn-primary(type="button", name="update", data-id="") 更新
 
     script(src="/js/admin.js")

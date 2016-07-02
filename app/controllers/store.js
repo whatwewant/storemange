@@ -23,7 +23,9 @@ module.exports = {
             }
 
             User
-              .find({})
+              .find({
+                  status: {active: true}
+              })
               .exec(function (err, users) {
                 if (err) {
                   console.log(err);
@@ -40,7 +42,7 @@ module.exports = {
     },
     getCreatePage: function (req, res) {
         User
-          .find({})
+          .find({status: {active: true}})
           .exec(function (err, users) {
             res.render('store-create', {
                 title: '创建管理员',
@@ -85,7 +87,7 @@ module.exports = {
             belongsTo,
             manipulator,
             name,
-            number,
+            total,
             comment
         } = req.body.store;
 
@@ -111,7 +113,8 @@ module.exports = {
                     belongsTo,
                     manipulator,
                     name,
-                    number,
+                    remain: total,
+                    total,
                     comment,
                 });
                 _.save(function (err, store) {

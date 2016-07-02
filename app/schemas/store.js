@@ -14,6 +14,7 @@ var StoreSchema = module.exports = new Schema({
     belongsTo: {type: ObjectId, ref: 'User'},
     manipulator: {type: ObjectId, ref: 'User'},
     name: {type: String, trim: true, required: true},
-    number: {type: Number, default: 0},
+    remain: {type: Number, default: 0},
+    total: {type: Number, default: 0},
     comment: String,
 }, {timestamps: true});

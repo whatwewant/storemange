@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  .container
+  .store
     .row
       table.table.table-hover.table-bordered.table-responsive
         thread
@@ -12,20 +12,25 @@ block content
             th 操作者
             th 创建时间
             th 更新时间
-            th 查看
+            //- th 查看
             th 更新
+            th 添加
             th 删除
         tbody
           each item in stores
+            //- if item.comment
+            //-  tr.store(class="item-id-#{item._id}", data-toggle="tooltip", data-placement="right", title="#{item.comment}")
+            //- else
             tr.store(class="item-id-#{item._id}")
-              td #{item.name}
-              td #{item.number}
+              td(data-toggle="tooltip", data-placement="right", title="#{item.comment ? item.comment : '尚无备注'}") #{item.name}
+              td #{item.remain}/#{item.total}
               td #{item.belongsTo ? item.belongsTo.nickname : '已离开'}
               td #{item.manipulator ? item.manipulator.nickname : '已离开'}
               td #{moment(item.createdAt).format('MM/DD/YYYY')}
               td #{moment(item.updatedAt).format('MM/DD/YYYY')}
-              td: button.btn.btn-default(type="button", data-id="#{item.id}") 查看
-              td: button.btn.btn-default(type="button", data-id="#{item.id}") 更新
+              //- td: button.btn.btn-default.retrieve(type="button", data-id="#{item.id}") 查看
+              td: button.btn.btn-default.update(type="button", data-id="#{item.id}") 更新
+              td: button.btn.btn-default.add(type="button", data-id="#{item.id}") 添加
               td: button.btn.btn-danger.del(type="button", data-id="#{item.id}") 删除
 
     .modal.fade#createModal(role="dialog")
@@ -40,9 +45,9 @@ block content
                   .col-sm-10
                     input.form-control(name="store[name]", type="text", placeholder="名称")
                 .form-group
-                  label.col-sm-2.control-label(for="store[number]") 数&emsp;量
+                  label.col-sm-2.control-label(for="store[total]") 总&emsp;数
                   .col-sm-10
-                    input.form-control(name="store[number]", type="text", placeholder="数量")
+                    input.form-control(name="store[total]", type="text", placeholder="数量")
                 .form-group
                   label.col-sm-2.control-label(for="store[belongsTo]") 拥有者
                   .col-sm-10

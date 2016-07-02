@@ -8,6 +8,7 @@
 
 var User = require('../models/user');
 var _ = require('underscore');
+var moment = require('moment');
 
 module.exports = {
     // page
@@ -15,6 +16,10 @@ module.exports = {
         console.log(123);
         User
           .find({})
+          .sort('-status.active')
+          .sort({
+              updateAt: -1,
+          })
           .exec(function (err, users) {
             if (err) {
                 console.log(err);
@@ -190,6 +195,11 @@ module.exports = {
                     return res.sendStatus(500);
                 }
 
+                // console.log(user);
+                // user.createdAt = moment(user.createdAt).format('llll');
+                // user.updatedAt = moment(user.updatedAt).format('MM/DD/YYYY HH:mm:SS [CST]ZZ');
+                // console.log(user);
+
                 res.json(user);
               });
         }
@@ -228,6 +238,10 @@ module.exports = {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
+                }
+
+                if (! user) {
+                    return res.sendStatus(404);
                 }
 
                 return res.json(user);
