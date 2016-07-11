@@ -113,8 +113,8 @@ module.exports = {
                     belongsTo,
                     manipulator,
                     name,
-                    remain: total,
-                    total,
+                    remain: parseInt(total),
+                    total: parseInt(total),
                     comment,
                 });
                 _.save(function (err, store) {
@@ -142,7 +142,7 @@ module.exports = {
                     return res.sendStatus(500);
                 }
 
-                store = _.extend(store, _store);
+                store = _.extend({}, store, _store, {remain: store.remain, total: store.total});
                 store.save(function (err, store) {
                     if (err) {
                         console.log(err);
@@ -245,7 +245,17 @@ module.exports = {
                     return res.sendStatus(500);
                 }
 
-                store = _.extend(store, _store);
+                // 新增数量
+                if (_store.addNumber) {
+                    store.remain += parseInt(_store.addNumber);
+                    store.total += parseInt(_store.addNumber);
+                    if (_store.comment)
+                        store.comment += ('\n' + Date.now() + ' ' + _store.comment)
+                } else {
+                    // 更新信息
+                    store = _.extend(store, _store);
+                }
+
                 store.save(function (err, store) {
                     if (err) {
                         console.log(err);

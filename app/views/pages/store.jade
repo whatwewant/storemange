@@ -30,8 +30,11 @@ block content
               td #{moment(item.updatedAt).format('MM/DD/YYYY')}
               //- td: button.btn.btn-default.retrieve(type="button", data-id="#{item.id}") 查看
               td: button.btn.btn-default.update(type="button", data-id="#{item.id}") 更新
-              td: button.btn.btn-default.add(type="button", data-id="#{item.id}") 添加
-              td: button.btn.btn-danger.del(type="button", data-id="#{item.id}") 删除
+              td: button.btn.btn-default.add(type="button", data-id="#{item.id}", data-name="#{item.name}") 添加
+              if item.createdAt >= item.updatedAt
+                td: button.btn.btn-danger.del(type="button", data-id="#{item.id}") 删除
+              else
+                td: button.btn.btn-danger.del(type="button", data-id="#{item.id}", disabled) 删除
 
     .modal.fade#createModal(role="dialog")
       .modal-dialog
@@ -47,7 +50,7 @@ block content
                 .form-group
                   label.col-sm-2.control-label(for="store[total]") 总&emsp;数
                   .col-sm-10
-                    input.form-control(name="store[total]", type="text", placeholder="数量")
+                    input.form-control(name="store[total]", type="number", placeholder="数量")
                 .form-group
                   label.col-sm-2.control-label(for="store[belongsTo]") 拥有者
                   .col-sm-10
@@ -67,4 +70,59 @@ block content
               .modal-footer
                 button.btn.btn-default(type="button", data-dismiss="modal") 取消
                 button.btn.btn-primary(type="submit") 创建
+
+    .modal.fade#updateModal(role="dialog")
+      .modal-dialog
+          .modal-content
+            form.form-horizontal
+              .modal-header
+                h1.modal-title 更新材料
+              .modal-body
+                .form-group
+                  label.col-sm-2.control-label(for="store[name]") 名&emsp;称
+                  .col-sm-10
+                    input.form-control(name="store[name]", type="text", placeholder="名称")
+                .form-group
+                  label.col-sm-2.control-label(for="store[total]") 总&emsp;数
+                  .col-sm-10
+                    input.form-control(name="store[total]", type="number", placeholder="数量")
+                .form-group
+                  label.col-sm-2.control-label(for="store[belongsTo]") 拥有者
+                  .col-sm-10
+                    select.form-control(name="store[belongsTo]")
+                      each user in users
+                        option(value="#{user._id}") #{user.nickname}
+                .form-group
+                  label.col-sm-2.control-label(for="store[manipulator]") 操作者
+                  .col-sm-10
+                    select.form-control(name="store[manipulator]")
+                      each user in users
+                        option(value="#{user._id}") #{user.nickname}
+                .form-group
+                  label.col-sm-2.control-label(for="store[comment]") 备注
+                  .col-sm-10
+                    textarea.form-control(name="store[comment]", rows="5", placeholder="备注信息")
+              .modal-footer
+                button.btn.btn-default(type="button", data-dismiss="modal") 取消
+                button.btn.btn-primary.update-btn(type="button") 更新
+
+    .modal.fade#addModal(role="dialog")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h1.modal-title 新增数
+          .modal-body
+            form.form-horizontal
+              .form-group
+                label.col-sm-2.control-label(for="store[addNumber]") 新增数量
+                .col-sm-10
+                  input.form-control(name="store[addNumber]", type="number", min="1", value="1")
+              .form-group
+                label.col-sm-2.control-label(for="store[comment]") 备注信息
+                .col-sm-10
+                  textarea.form-control(name="store[comment]", placeholder="备注信息", rows="5")
+          .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") 取消
+            button.btn.btn-default.add-btn(type="button") 增加
+
     script(src="/js/admin.js")

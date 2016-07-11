@@ -79,6 +79,8 @@ app.set('views', './app/views/pages');
 app.set('view engine', 'jade');
 app.locals.moment = require('moment');
 
+// @middlewares
+require('./config/middlewares')(app);
 // @route
 require('./config/route')(app);
 

@@ -28,6 +28,12 @@ module.exports = function (app) {
             StoreController.getListPage);
     app.post('/admin/store', 
             StoreController.postCreate);
+    app.get('/api/v1/admin/store/:id',
+            StoreController.retrieve);
+    app.put('/api/v1/admin/store/:id',
+            StoreController.update);
+    app.delete('/api/v1/admin/store/:id',
+            StoreController.delete);
 
     // activity
 };

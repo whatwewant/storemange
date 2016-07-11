@@ -17,6 +17,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "bluebird": "^3.4.1",
+    "express-jwt": "^3.4.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-livereload": "^3.8.1",
