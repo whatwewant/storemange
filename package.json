@@ -23,6 +23,7 @@
     "gulp-livereload": "^3.8.1",
     "gulp-nodemon": "^2.1.0",
     "jade": "^1.11.0",
+    "jshint": "^2.9.2",
     "should": "^9.0.2"
   },
   "dependencies": {

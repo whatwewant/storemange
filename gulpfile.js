@@ -46,7 +46,7 @@ gulp.task('server', function () {
             'DEBUG': 'true',
         },
         task: ['jshint'],
-        stdout: false,
+        stdout: true,
     }).on('readable', function () {
         this.stdout.on('data', function (chunk) {
             if (/^Express\ server \ listening/.test(chunk)) {
