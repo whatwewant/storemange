@@ -8,6 +8,7 @@
 
 var UserController = require('../app/controllers/user');
 var StoreController = require('../app/controllers/store');
+var ActivityController = require('../app/controllers/activity');
 
 
 module.exports = function (app) {
@@ -36,4 +37,6 @@ module.exports = function (app) {
             StoreController.delete);
 
     // activity
+    app.get('/admin/activity',
+            ActivityController.getListPage);
 };

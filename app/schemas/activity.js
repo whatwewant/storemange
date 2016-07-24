@@ -1,20 +1,61 @@
-/****************************************************
-  > File Name    : app/schemas/activity.js
-  > Author       : Cole Smith
-  > Mail         : tobewhatwewant@gmail.com
-  > Github       : whatwewant
-  > Created Time : 2016年07月01日 星期五 08时02分18秒
- ****************************************************/
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 
-var Activity = module.exports = new Schema({
-    leader: {type: ObjectId, ref: 'User'},
-    name: {type: String, trim: true, required: true},
-    comment: {type: String, trim: true},
-    returnDate: Date,
-    materiel: [{type: ObjectId, ref: 'Store'}],
-    status: {type: Boolean, default: true}, // 完成状态
-}, {timestamps: true});
+var ActivitySchema = module.exports = new Schema({
+  name: { type: String, required: true, trim: true },
+  action: { type: String, trim: true },
+  submitter: { type: ObjectId, ref: 'User' },
+  solver: { type: ObjectId, ref: 'User', default: null },
+  // 0  - default not verify
+  // -1 - rejected
+  // 1  - approved
+  status: { type: Number, default: 0 },
+  comment: { type: String, default: '', trim: true },
+  materiel: [{ type: ObjectId, ref: 'Store' }],
+}, {
+  timestamps: true,
+  strict: true,
+});
+
+
+ActivitySchema.methods = {
+  addMaterial: function (store, cb) {
+    this.materiel.push(store);
+    this.save(cb);
+  },
+  approve: function (cb) {
+    this.status = true;
+    this.save(cb);
+  },
+};
+
+
+ActivitySchema.statics = {
+  fetch: function (cb) {
+    this
+      .find({})
+      .exec(cb);
+  },
+  fetchByStatus: function (status, cb) {
+    this
+      .find({ status: status })
+      .exec(cb);
+  },
+  fetchBySubmitter: function (id, cb) {
+    this
+      .find({ submitter: id })
+      .exec(cb);
+  },
+  fetchBySolver: function (id, cb) {
+    this
+      .find({ solver: id})
+      .exec(cb);
+  },
+  fetchOne: function (id, cb) {
+    this
+      .findOne({ _id: id })
+      .exec(cb);
+  },
+};

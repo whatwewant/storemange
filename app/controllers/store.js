@@ -8,6 +8,7 @@
 
 var User = require('../models/user');
 var Store = require('../models/store');
+var Activity = require('../models/activity');
 var _ = require('underscore');
 
 module.exports = {
@@ -284,5 +285,31 @@ module.exports = {
     },
 
     // permissions
+};
+
+
+var ActionRecorder = {
+  record: function (action="create", activity, cb) {
+    var _activity = new Activity(activity);
+
+    switch(action) {
+      case 'create':
+        _activity.action = '创建';
+        break;
+      case 'add':
+        _activity.action = '增加';
+        break;
+      case 'update':
+        _activity.action = '更新';
+        break;
+      case 'delete':
+        _activity.action = '删除';
+        break;
+      default:
+        _activity.action = '无效';
+    }
+
+    _activity.save(cb);
+  },
 };
 

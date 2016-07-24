@@ -1,0 +1,109 @@
+extends ../layout
+
+block content
+  .activity
+    .row
+      table.table.table-hover.table-bordered.table-responsive
+        thread
+          tr
+            th 名称
+            th 动作
+            th 创建时间
+            th 更新时间
+            th 发起人
+            th 审核人
+            th 审核状态
+            th 查看
+            //- th 更新
+            //- th 删除
+        tbody
+          each item in activities
+            tr(class="item-id-#{item._id}")
+              td #{item.name}
+              td #{item.action}
+              td #{moment(item.createdAt).format('MM/DD/YYYY HH:mm:SS')}
+              td #{moment(item.updatedAt).format('MM/DD/YYYY HH:mm:SS')}
+              td #{item.submitter.nickname}
+              td #{ item.solver ? item.solver.nickname : '尚无' }
+              if item.status == 0
+                td 未审核
+              else if item.status == -1
+                td 拒绝
+              else if item.status == 1
+                td 允许
+              else
+                td 未知
+              td: button.btn.btn-default.retrieve(type="button", data-id="#{user.id}") 查看
+
+    .modal.fade#createModal(role="dialog")
+      .modal-dialog
+        .modal-content
+          form.form-horizontal(method="post", name="createForm")
+            .modal-header
+              h1.modal-title 创建用户
+            .modal-body
+              .form-group
+                label.col-sm-2.control-label(for="") 昵&emsp;称
+                .col-sm-10
+                  input.form-control(name="user[nickname]", placeholder="昵   称")
+              .form-group
+                label.col-sm-2.control-label(for="") 用户名
+                .col-sm-10
+                  input.form-control(name="user[username]", placeholder="用户名")
+              .form-group
+                label.col-sm-2.control-label(for="") 密&emsp;码
+                .col-sm-10
+                  input.form-control(type="password", name="user[password]", placeholder="密   码")
+            .modal-footer
+              button.btn.btn-default(type="button", data-dismiss="modal") 取消
+              button.btn.btn-primary(type="submit") 创建
+
+    .modal.fade#retrieveModal(role="dialog")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h1.modal-title 查看用户信息
+          .modal-body
+            table.table.table-hover.table-responsive
+              thead
+                tr
+                  th 属性
+                  th 值
+              tbody
+                tr
+                  td 昵称
+                  td 哈哈
+                tr
+                  td 用户名
+                  td lqr
+          .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") 确定
+
+    .modal.fade#updateModal(role="dialog")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h1.modal-title 更新用户信息
+          .modal-body
+            form.form-horizontal(name="updateForm")
+              .form-group
+                label.col-sm-2.control-label(for="") 昵&emsp;称
+                .col-sm-10
+                  input.form-control(name="user[nickname]", placeholder="昵称")
+              .form-group
+                label.col-sm-2.control-label(for="") 用户名
+                .col-sm-10
+                  input.form-control(name="user[username]", placeholder="用户名")
+              .form-group
+                label.col-sm-2.control-label(for="") OpenID
+                .col-sm-10
+                  input.form-control(name="user[openid]", placeholder="OpenID")
+              .form-group
+                label.col-sm-2.control-label(for="") 手机号
+                .col-sm-10
+                  input.form-control(name="user[phone]", placeholder="手机号")
+          .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") 取消
+            button.btn.btn-primary(type="button", name="update", data-id="") 更新
+
+    script(src="/js/admin.js")
