@@ -39,7 +39,7 @@ var UserSchema = module.exports = new Schema({
     },
 }, {timestamps: true});
 
-
+var SALT_WORK_FACTORY = 10;
 UserSchema.pre('save', function (next) {
     if (this.isModified('password') || this.isNew) {
         var user = this;
