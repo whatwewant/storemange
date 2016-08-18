@@ -24,8 +24,8 @@ block content
             tr.store(class="item-id-#{item._id}")
               td(data-toggle="tooltip", data-placement="right", title="#{item.comment ? item.comment : '尚无备注'}") #{item.name}
               td #{item.remain}/#{item.total}
-              td #{item.belongsTo ? item.belongsTo.nickname : '已离开'}
-              td #{item.manipulator ? item.manipulator.nickname : '已离开'}
+              td: button.btn.btn-default.retrieve(type="button", data-id="#{item.belongsTo.id}") #{item.belongsTo ? item.belongsTo.nickname : '已离开'}
+              td: button.btn.btn-default.retrieve(type="button", data-id="#{item.manipulator.id}") #{item.manipulator ? item.manipulator.nickname : '已离开'}
               td #{moment(item.createdAt).format('MM/DD/YYYY')}
               td #{moment(item.updatedAt).format('MM/DD/YYYY')}
               //- td: button.btn.btn-default.retrieve(type="button", data-id="#{item.id}") 查看
@@ -35,6 +35,27 @@ block content
                 td: button.btn.btn-danger.del(type="button", data-id="#{item.id}") 删除
               else
                 td: button.btn.btn-danger.del(type="button", data-id="#{item.id}", disabled) 删除
+
+    .modal.fade#retrieveModal(role="dialog")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h1.modal-title 查看用户信息
+          .modal-body
+            table.table.table-hover.table-responsive
+              thead
+                tr
+                  th 属性
+                  th 值
+              tbody
+                tr
+                  td 昵称
+                  td 哈哈
+                tr
+                  td 用户名
+                  td lqr
+          .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") 确定
 
     .modal.fade#createModal(role="dialog")
       .modal-dialog
